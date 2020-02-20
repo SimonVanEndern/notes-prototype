@@ -4,7 +4,8 @@
   "description": "This is the second prototype for express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "Simon van Endern",
   "license": "ISC",
