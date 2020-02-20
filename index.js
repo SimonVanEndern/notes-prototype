@@ -1,17 +1,20 @@
-var express = require('express')
+const express = require('express')
+const api = require('./api')
+
+let port = 80
 
 var app = express()
 
-APIrouter = express.Router()
+if (app.env == "dev") {
+	port = 80
+} else {
+	port = 443
+}
 
-APIrouter.get('*', function (req, res, next) {
-	res.status(200).json({})
-})
-
-app.use('/api', APIrouter)
+app.use('/api', api())
 
 app.get('*', function (req, res, next) {
 	res.status(200).send("Hello World")
 })
 
-app.listen(80)
+app.listen(port)
