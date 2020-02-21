@@ -1,4 +1,6 @@
 const express = require('express')
+const db = require('./db')
+const Person = require('./person')
 
 module.exports = function () {
 	APIRouter = express.Router()
@@ -12,15 +14,19 @@ module.exports = function () {
 		res.json({"api-version": 1.0})
 	})
 
-	APIRouter.get('*', function (req, res, next) {
-		res.json({test:true})
-	})
-
 	APIRouter.route('/person')
 		.get(function (req, res, next) {
-			res.json({id: 1})
+			Person.find(function (err, persons) {
+				if (err) {console.log(err)}
+					else res.json(persons)
+			})
 		})
-		.post(function (req, res, next) {
+		.post(async function (req, res, next) {
+			let person = new Person({
+				"name": "Me",
+				"age": 44
+			})
+			await person.save()
 			res.status(201)
 			.send("Created")
 		})
@@ -28,6 +34,11 @@ module.exports = function () {
 			res.status(204)
 			.send("Deleted")
 		})
+
+
+	APIRouter.get('*', function (req, res, next) {
+		res.json({test:true})
+	})
 
 	return APIRouter
 }
